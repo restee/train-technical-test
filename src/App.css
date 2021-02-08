@@ -23,6 +23,25 @@
   color: white;
 }
 
+.DropDownItem {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  color: black;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding: 2px;
+  background-color: white;
+}
+
+.DropDownItem:hover {
+  cursor: pointer;
+}
+
+.DropDownItem:active {
+  background-color: gray;
+}
+
 .App-link {
   color: #61dafb;
 }
