@@ -9,9 +9,7 @@ function DropdownResults({ height, user, width }) {
     const { data, error } = useSWR(
         user ? `https://api.github.com/search/users?q=${user}` : null,
         fetcher
-    );
-
-    console.log(data);
+    );    
 
     if (!height)
         height = '30vh';
@@ -25,13 +23,12 @@ function DropdownResults({ height, user, width }) {
         for (const [index, value] of data.items.entries()) {
             itemViews.push(
                 <div key={index + index - 1}>
-                    <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'row', color: 'black', marginLeft: "10%", marginRight: "10%" }}>
+                    <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'row', color: 'black', marginLeft: "5%", marginRight: "5%", padding: '2px' }}>
                         <img src={value.avatar_url} height="60%" width="20%" />
                         <p style={{ marginLeft: "10%" }}>{value.login}</p>
                     </div>
-                    {index < data.items.length - 1 && <div style={{ backgroundColor: 'gray', width: '80%', marginLeft: '10%', height: '1px' }} />}
+                    {index < data.items.length - 1 && <div style={{ backgroundColor: 'gray', width: '90%', marginLeft: '5%', marginTop: '1%', marginBottom: '1%', height: '1px' }} />}
                 </div>)
-
         }
     }
 

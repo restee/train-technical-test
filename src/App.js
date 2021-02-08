@@ -11,10 +11,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div style={{ width: '30%', marginTop: "50px" }}>
+        <div className="col2" style={{ marginTop: "50px" }}>
           <CustomTypeahead />
         </div>
-        <div>text below</div>
+        <div>Input Username</div>
       </header>
     </div>
   );
