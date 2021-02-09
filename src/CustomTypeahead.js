@@ -3,7 +3,7 @@ import './App.css';
 import DropdownResults from './DropDownComponent';
 
 
-function CustomTypeahead({ dropdownHeight, style }) {
+function CustomTypeahead(props) {
 
     const inputRef = useRef(null);
     const [inputValue, setInputValue] = useState('');
@@ -37,10 +37,16 @@ function CustomTypeahead({ dropdownHeight, style }) {
     return (
         <div>
             <form>
-                <input ref={inputRef} type="text" className="UsernameInput" name="name" value={inputValue} onChange={onTextChangeHandler} style={!style ? {} : style} />
+                <input ref={inputRef}
+                    type="text"
+                    className="UsernameInput"
+                    name="name"
+                    value={inputValue}
+                    onChange={onTextChangeHandler}
+                    style={!props.style ? {} : props.style} />
 
                 <DropdownResults
-                    height={dropdownHeight}
+                    height={props.dropdownHeight}
                     user={inputValue}
                     width={inputWidth}
                     onItemSelected={onItemSelected}

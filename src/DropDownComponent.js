@@ -5,22 +5,21 @@ import './App.css';
 const fetcher = url => fetch(url).then(res => res.json());
 const defaultHeight = '30vh';
 
-function DropdownResults({ height, user, width, show, onItemSelected}) {
+function DropdownResults(props) {
 
     const { data, error } = useSWR(
-        user ? `https://api.github.com/search/users?q=${user}` : null,
+        props.user ? `https://api.github.com/search/users?q=${props.user}` : null,
         fetcher
     );
 
     const onItemClicked = value => {
-        onItemSelected(value);
+        props.onItemSelected(value);
     };
 
 
-    if (!height)
-        height = defaultHeight;
 
-    if (!user || error || !show) {
+
+    if (!props.user || error || !props.show) {
         return null;
     }
 
@@ -42,11 +41,11 @@ function DropdownResults({ height, user, width, show, onItemSelected}) {
                 </div>)
         }
     }
-
     return (
         <div>
             {data && data.message && <div className="UsernameError">{data.message}</div>}
-            <div className="DropDownContainer" style={{ maxHeight: height, width }}>
+            <div className="DropDownContainer"
+                style={{ maxHeight: props.height ? props.height : defaultHeight, width: props.width ? props.width : '100%' }}>
                 {data && data.items != undefined && itemViews}
             </div>
         </div>
