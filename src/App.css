@@ -93,9 +93,15 @@
 }
 
 @keyframes flickerAnimation {
-  0%   { opacity:1; }
-  50%  { opacity:0; }
-  100% { opacity:1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes App-logo-spin {
@@ -107,107 +113,65 @@
   }
 }
 
-@media (min-width: 600px) {
-  .col1 {
-    width: 100px;
+@media (min-width: 300px) and (max-width:799px) {
+  .col-sm1 {
+    width: 17%;
   }
-  .col2 {
-    width: 200px;
+  .col-sm2 {
+    width: 33%;
   }
-  .col3 {
-    width: 300px;
+  .col-sm3 {
+    width: 50%;
   }
-  .col4 {
-    width: 400px;
+  .col-sm4 {
+    width: 66%;
   }
-  .col5 {
-    width: 500px;
+  .col-sm5 {
+    width: 83%;
   }
-  .col6 {
-    width: 600px;
+  .col-sm6 {
+    width: 100%;
   }
 }
 
-@media (min-width: 900px) {
-  .col1 {
-    width: 150px;
+@media (min-width: 800px)and (max-width:1199px) {
+  .col-md1 {
+    width: 17%;
   }
-  .col2 {
-    width: 300px;
+  .col-md2 {
+    width: 33%;
   }
-  .col3 {
-    width: 450px;
+  .col-md3 {
+    width: 50%;
   }
-  .col4 {
-    width: 600px;
+  .col-md4 {
+    width: 66%;
   }
-  .col5 {
-    width: 750px;
+  .col-md5 {
+    width: 83%;
   }
-  .col6 {
-    width: 900px;
+  .col-md6 {
+    width: 100%;
   }
 }
 
 @media (min-width: 1200px) {
-  .col1 {
-    width: 200px;
+  .col-l1 {
+    width: 17%;
   }
-  .col2 {
-    width: 400px;
+  .col-l2 {
+    width: 33%;
   }
-  .col3 {
-    width: 600px;
+  .col-l3 {
+    width: 50%;
   }
-  .col4 {
-    width: 800px;
+  .col-l4 {
+    width: 66%;
   }
-  .col5 {
-    width: 1000px;
+  .col-l5 {
+    width: 83%;
   }
-  .col6 {
-    width: 1200px;
-  }
-}
-
-@media (min-width: 1500px) {
-  .col1 {
-    width: 250px;
-  }
-  .col2 {
-    width: 500px;
-  }
-  .col3 {
-    width: 750px;
-  }
-  .col4 {
-    width: 1000px;
-  }
-  .col5 {
-    width: 1250px;
-  }
-  .col6 {
-    width: 1500px;
-  }
-}
-
-@media (min-width: 1800px) {
-  .col1 {
-    width: 300px;
-  }
-  .col2 {
-    width: 600px;
-  }
-  .col3 {
-    width: 900px;
-  }
-  .col4 {
-    width: 1200px;
-  }
-  .col5 {
-    width: 1500px;
-  }
-  .col6 {
-    width: 1800px;
+  .col-l6 {
+    width: 100%;
   }
 }
