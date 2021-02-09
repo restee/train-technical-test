@@ -3,7 +3,7 @@ import '../App.css';
 import DropdownResults from './DropDownComponent';
 
 
-function CustomTypeahead(props) {
+const CustomTypeahead = (props) => {
 
     const inputRef = useRef(null);
     const [inputValue, setInputValue] = useState('');
@@ -59,14 +59,14 @@ function CustomTypeahead(props) {
         <div >
             <form onMouseLeave={onMouseLeaveForm} onMouseEnter={onMouseEnterForm}>
                 <input ref={inputRef}
-                    type="text"
-                    className="UsernameInput"
-                    name="name"
+                    type='text'
+                    className='UsernameInput'
+                    name='name'
                     value={inputValue}
                     onChange={onTextChangeHandler}
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
-                    style={!props.style ? {} : props.style} />
+                    style={props.style || {}} />
 
                 <DropdownResults
                     recordPerPage={100}

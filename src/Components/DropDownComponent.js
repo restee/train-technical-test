@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import useSWR from "swr";
+import useSWR from 'swr';
 import '../App.css';
 import UserItem from './UserItem';
 
@@ -7,7 +7,7 @@ const fetcher = url => fetch(url).then(res => res.json());
 const defaultHeight = '30vh';
 const recordPerPage = 20;
 
-function DropdownResults(props) {
+const DropdownResults = (props) => {
 
     const isFetchedData = useRef(false);
     const dropdownRef = useRef(null);
@@ -52,7 +52,7 @@ function DropdownResults(props) {
 
     useEffect(() => {
         if (data && !error && data.items != undefined) {
-            var temp = data.items;
+            let temp = data.items;
             if (data.items.length < perPage) {
                 setLimitReached(true);
             }
@@ -83,14 +83,14 @@ function DropdownResults(props) {
 
     return (
 
-        <div ref={dropdownRef} className="DropDownContainer"
+        <div ref={dropdownRef} className='DropDownContainer'
             onScroll={onDropdownScroll}
             style={{ maxHeight: props.height ? props.height : defaultHeight, width: props.width ? props.width : '100%' }}>
             {recordsToDisplay.map((item, index) =>
                 <UserItem key={index} value={item} onItemClicked={onItemClicked} />
             )}
-            {(!limitReached || !(data && data.message) && (recordsToDisplay.length >= perPage)) && <div className="LoadingMoreContainer">Loading...</div>}
-            {data && data.message && <div className="UsernameError" style={{ width: props.width ? props.width : '100%' }}>{data.message}</div>}
+            {(!limitReached || !(data && data.message) && (recordsToDisplay.length >= perPage)) && <div className='LoadingMoreContainer'>Loading...</div>}
+            {data && data.message && <div className='UsernameError' style={{ width: props.width ? props.width : '100%' }}>{data.message}</div>}
         </div>
 
     );
