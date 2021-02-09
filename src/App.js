@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import CustomTypeahead from './CustomTypeahead';
+import CustomTypeahead from './Components/CustomTypeahead';
 
 
 function App() {

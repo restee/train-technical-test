@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useSWR from "swr";
-import './App.css';
+import '../App.css';
 import UserItem from './UserItem';
 
 const fetcher = url => fetch(url).then(res => res.json());
