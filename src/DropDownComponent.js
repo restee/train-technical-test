@@ -87,7 +87,7 @@ function DropdownResults(props) {
             {recordsToDisplay.map((item, index) =>
                 <UserItem key={(page - 1) * recordPerPage + index} value={item} onItemClicked={onItemClicked} />
             )}
-            {(!limitReached || !(data && data.message)) && <div className="LoadingMoreContainer">Loading...</div>}
+            {(!limitReached || !(data && data.message) && (recordsToDisplay.length >= perPage)) && <div className="LoadingMoreContainer">Loading...</div>}
             {data && data.message && <div className="UsernameError" style={{ width: props.width ? props.width : '100%' }}>{data.message}</div>}
         </div>
 
