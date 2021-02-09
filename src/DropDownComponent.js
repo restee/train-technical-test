@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useSWR from "swr";
 import './App.css';
 
 const fetcher = url => fetch(url).then(res => res.json());
+const defaultHeight = '30vh';
 
-
-function DropdownResults({ height, user, width, onItemSelected, show}) {
+function DropdownResults({ height, user, width, show, onItemSelected}) {
 
     const { data, error } = useSWR(
         user ? `https://api.github.com/search/users?q=${user}` : null,
@@ -13,38 +13,44 @@ function DropdownResults({ height, user, width, onItemSelected, show}) {
     );
 
     const onItemClicked = value => {
-        console.log("Item clicked = ", value);
         onItemSelected(value);
     };
 
 
     if (!height)
-        height = '30vh';
+        height = defaultHeight;
 
-    if (!user || error || !show)
+    if (!user || error || !show) {
         return null;
+    }
 
     const itemViews = [];
 
-    if (data) {
-        for (const [index, value] of data.items.entries()) {
+    if (data && !error) {
+        var entries = data.items != undefined ? data.items.entries() : [];
+        for (const [index, value] of entries) {
             itemViews.push(
                 <div key={index + index - 1}>
                     <div
                         className="DropDownItem"
-                        onClick={() => { onItemClicked(value) }}>
-                        <img src={value.avatar_url} height="60%" width="20%" style={{ marginLeft: '5%' }} />
-                        <p style={{ marginLeft: "10%", marginRight: '5%' }}>{value.login}</p>
+                        onClick={() => { onItemClicked(value) }}
+                        style={index == 0 ? { paddingTop: '10px' } : index == data.items.length - 1 ? { paddingBottom: '10px' } : {}}>
+                        <img src={value.avatar_url} className="DropDownImage" />
+                        <p className="DropDownUsername">{value.login}</p>
                     </div>
-                    {index < data.items.length - 1 && <div style={{ backgroundColor: 'gray', width: '90%', marginLeft: '5%', marginTop: '1%', marginBottom: '1%', height: '1px' }} />}
+                    {index < data.items.length - 1 && <div className="DropDownDivider" />}
                 </div>)
         }
     }
 
     return (
-        <div style={{ height, position: 'fixed', backgroundColor: "white", overflow: 'auto', display: 'flex', flexDirection: 'column', width }}>
-            {itemViews}
+        <div>
+            {data && data.message && <div className="UsernameError">{data.message}</div>}
+            <div className="DropDownContainer" style={{ maxHeight: height, width }}>
+                {data && data.items != undefined && itemViews}
+            </div>
         </div>
+
     );
 }
 

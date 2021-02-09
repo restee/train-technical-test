@@ -1,19 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import './App.css';
 import DropdownResults from './DropDownComponent';
 
 
-
-
-function CustomTypeahead({ fontSize, dropdownHeight }) {
+function CustomTypeahead({ dropdownHeight, style }) {
 
     const inputRef = useRef(null);
     const [inputValue, setInputValue] = useState('');
     const [inputWidth, setInputWidth] = useState(0);
     const [showDialog, setShowDialog] = useState(false);
 
+
     const onTextChangeHandler = event => {
         setInputValue(event.target.value);
-        console.log(event.target.value);
         setShowDialog(true);
     };
 
@@ -25,16 +24,27 @@ function CustomTypeahead({ fontSize, dropdownHeight }) {
     useEffect(() => {
         if (inputRef.current) {
             setInputWidth(inputRef.current.offsetWidth);
-            console.log('inputWidth = ', inputWidth);
         }
 
+        function handleResize() {
+            setInputWidth(inputRef.current.offsetWidth);
+        }
+
+        window.addEventListener('resize', handleResize)
     }, [inputRef]);
+
 
     return (
         <div>
             <form>
-                <input ref={inputRef} type="text" style={{ width: '100%', padding: '5px', fontSize: '20px' }} name="name" value={inputValue} onChange={onTextChangeHandler} />
-                <DropdownResults user={inputValue} width={inputWidth} onItemSelected={onItemSelected} show={showDialog}/>
+                <input ref={inputRef} type="text" className="UsernameInput" name="name" value={inputValue} onChange={onTextChangeHandler} style={!style ? {} : style} />
+
+                <DropdownResults
+                    height={dropdownHeight}
+                    user={inputValue}
+                    width={inputWidth}
+                    onItemSelected={onItemSelected}
+                    show={showDialog} />
             </form>
         </div>
     );
