@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useSWR from "swr";
 import './App.css';
+import UserItem from './UserItem';
 
 const fetcher = url => fetch(url).then(res => res.json());
 const defaultHeight = '30vh';
+const recordPerPage = 20;
 
 function DropdownResults(props) {
 
+    const dropdownRef = useRef(null);
+    const [page, setPage] = useState(1);
+    const [recordsToDisplay, setRecordsToDisplay] = useState([]);
+    const [limitReached, setLimitReached] = useState(false);
+    const [scrollPoint, setScrollPoint] = useState(0);
+
+    const perPage = props.recordPerPage ? props.recordPerPage : recordPerPage;
+
     const { data, error } = useSWR(
-        props.user ? `https://api.github.com/search/users?q=${props.user}` : null,
+        props.user ? `https://api.github.com/search/users?q=${props.user}&page=${page}&per_page=${perPage}` : null,
         fetcher
     );
 
@@ -16,38 +26,63 @@ function DropdownResults(props) {
         props.onItemSelected(value);
     };
 
+    const onDropdownScroll = event => {
+        const target = event.target;
+        if (target.scrollHeight - target.scrollTop === target.clientHeight && !limitReached && !error) {
+            setScrollPoint(dropdownRef.current.scrollTop);
+            setPage(page + 1);
+        }
+    }
 
+    useEffect(() => {
+        setPage(1);
+        setLimitReached(false);
+        setScrollPoint(0);
+        setRecordsToDisplay([]);
+    }, [props.user]);
+
+    useEffect(() => {
+        if (data && !error && data.items != undefined) {
+            var temp = data.items;
+            if (data.items.length < perPage) {
+                setLimitReached(true);
+            }
+
+            if (recordsToDisplay.length > 0) {
+                temp = recordsToDisplay.concat(temp);
+            }
+
+            setRecordsToDisplay(temp);
+
+        } else if (data && data.message) {
+            setLimitReached(true);
+        }
+
+    }, [data, error])
+
+    useEffect(() => {
+
+        if (dropdownRef.current && scrollPoint != dropdownRef.current.scrollTop) {
+            dropdownRef.current.scrollTop = scrollPoint;
+        }
+    }, [recordsToDisplay])
 
 
     if (!props.user || error || !props.show) {
         return null;
     }
 
-    const itemViews = [];
 
-    if (data && !error) {
-        var entries = data.items != undefined ? data.items.entries() : [];
-        for (const [index, value] of entries) {
-            itemViews.push(
-                <div key={index + index - 1}>
-                    <div
-                        className="DropDownItem"
-                        onClick={() => { onItemClicked(value) }}
-                        style={index == 0 ? { paddingTop: '10px' } : index == data.items.length - 1 ? { paddingBottom: '10px' } : {}}>
-                        <img src={value.avatar_url} className="DropDownImage" />
-                        <p className="DropDownUsername">{value.login}</p>
-                    </div>
-                    {index < data.items.length - 1 && <div className="DropDownDivider" />}
-                </div>)
-        }
-    }
     return (
-        <div>
+
+        <div ref={dropdownRef} className="DropDownContainer"
+            onScroll={onDropdownScroll}
+            style={{ maxHeight: props.height ? props.height : defaultHeight, width: props.width ? props.width : '100%' }}>
+            {recordsToDisplay.map((item, index) =>
+                <UserItem key={(page - 1) * recordPerPage + index} value={item} onItemClicked={onItemClicked} />
+            )}
+            {(!limitReached || !(data && data.message)) && <div className="LoadingMoreContainer">Loading...</div>}
             {data && data.message && <div className="UsernameError" style={{ width: props.width ? props.width : '100%' }}>{data.message}</div>}
-            <div className="DropDownContainer"
-                style={{ maxHeight: props.height ? props.height : defaultHeight, width: props.width ? props.width : '100%' }}>
-                {data && data.items != undefined && itemViews}
-            </div>
         </div>
 
     );

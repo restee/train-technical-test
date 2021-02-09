@@ -85,6 +85,19 @@
   flex-direction: column;
 }
 
+.LoadingMoreContainer {
+  color: black;
+  animation: flickerAnimation 2s infinite;
+  justify-content: center;
+  font-size: small;
+}
+
+@keyframes flickerAnimation {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

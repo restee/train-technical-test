@@ -49,6 +49,9 @@ function CustomTypeahead(props) {
         }
 
         window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
     }, [inputRef]);
 
 
@@ -66,6 +69,7 @@ function CustomTypeahead(props) {
                     style={!props.style ? {} : props.style} />
 
                 <DropdownResults
+                    recordPerPage={10}
                     height={props.dropdownHeight}
                     user={inputValue}
                     width={inputWidth}
