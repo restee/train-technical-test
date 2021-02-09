@@ -78,7 +78,7 @@
 }
 
 .DropDownContainer {
-  position: fixed;
+  position: absolute;
   background-color: white;
   overflow: auto;
   display: flex;

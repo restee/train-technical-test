@@ -9,6 +9,7 @@ function CustomTypeahead(props) {
     const [inputValue, setInputValue] = useState('');
     const [inputWidth, setInputWidth] = useState(0);
     const [showDialog, setShowDialog] = useState(false);
+    const [isCursorOut, setCursorOut] = useState(false);
 
 
     const onTextChangeHandler = event => {
@@ -19,6 +20,23 @@ function CustomTypeahead(props) {
     const onItemSelected = item => {
         setInputValue(item.login);
         setShowDialog(false);
+    }
+
+    const onInputFocus = event => {
+        setShowDialog(true);
+    }
+
+    const onInputBlur = event => {
+        if (isCursorOut)
+            setShowDialog(false);
+    }
+
+    const onMouseLeaveForm = event => {
+        setCursorOut(true);
+    }
+
+    const onMouseEnterForm = event => {
+        setCursorOut(false);
     }
 
     useEffect(() => {
@@ -35,14 +53,16 @@ function CustomTypeahead(props) {
 
 
     return (
-        <div>
-            <form>
+        <div >
+            <form onMouseLeave={onMouseLeaveForm} onMouseEnter={onMouseEnterForm}>
                 <input ref={inputRef}
                     type="text"
                     className="UsernameInput"
                     name="name"
                     value={inputValue}
                     onChange={onTextChangeHandler}
+                    onFocus={onInputFocus}
+                    onBlur={onInputBlur}
                     style={!props.style ? {} : props.style} />
 
                 <DropdownResults

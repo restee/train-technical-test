@@ -43,7 +43,7 @@ function DropdownResults(props) {
     }
     return (
         <div>
-            {data && data.message && <div className="UsernameError">{data.message}</div>}
+            {data && data.message && <div className="UsernameError" style={{ width: props.width ? props.width : '100%' }}>{data.message}</div>}
             <div className="DropDownContainer"
                 style={{ maxHeight: props.height ? props.height : defaultHeight, width: props.width ? props.width : '100%' }}>
                 {data && data.items != undefined && itemViews}
