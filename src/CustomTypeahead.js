@@ -69,7 +69,7 @@ function CustomTypeahead(props) {
                     style={!props.style ? {} : props.style} />
 
                 <DropdownResults
-                    recordPerPage={10}
+                    recordPerPage={100}
                     height={props.dropdownHeight}
                     user={inputValue}
                     width={inputWidth}

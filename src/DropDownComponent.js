@@ -31,13 +31,15 @@ function DropdownResults(props) {
 
     const onDropdownScroll = event => {
         const target = event.target;
+        if (Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < .5) {
 
-        if (target.scrollHeight - target.scrollTop === target.clientHeight && !limitReached && !error && isFetchedData.current) {
-            isFetchedData.current = false;
-            if (scrollPoint < dropdownRef.current.scrollTop) {
-                setScrollPoint(dropdownRef.current.scrollTop);
+            if (!limitReached && isFetchedData.current) {
+                isFetchedData.current = false;
+                if (scrollPoint < dropdownRef.current.scrollTop) {
+                    setScrollPoint(dropdownRef.current.scrollTop);
+                }
+                setPage(page + 1);
             }
-            setPage(page + 1);
         }
     }
 
