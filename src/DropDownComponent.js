@@ -9,13 +9,16 @@ const recordPerPage = 20;
 
 function DropdownResults(props) {
 
+    const isFetchedData = useRef(false);
     const dropdownRef = useRef(null);
     const [page, setPage] = useState(1);
     const [recordsToDisplay, setRecordsToDisplay] = useState([]);
     const [limitReached, setLimitReached] = useState(false);
     const [scrollPoint, setScrollPoint] = useState(0);
 
+
     const perPage = props.recordPerPage ? props.recordPerPage : recordPerPage;
+
 
     const { data, error } = useSWR(
         props.user ? `https://api.github.com/search/users?q=${props.user}&page=${page}&per_page=${perPage}` : null,
@@ -28,8 +31,12 @@ function DropdownResults(props) {
 
     const onDropdownScroll = event => {
         const target = event.target;
-        if (target.scrollHeight - target.scrollTop === target.clientHeight && !limitReached && !error) {
-            setScrollPoint(dropdownRef.current.scrollTop);
+
+        if (target.scrollHeight - target.scrollTop === target.clientHeight && !limitReached && !error && isFetchedData.current) {
+            isFetchedData.current = false;
+            if (scrollPoint < dropdownRef.current.scrollTop) {
+                setScrollPoint(dropdownRef.current.scrollTop);
+            }
             setPage(page + 1);
         }
     }
@@ -53,7 +60,6 @@ function DropdownResults(props) {
             }
 
             setRecordsToDisplay(temp);
-
         } else if (data && data.message) {
             setLimitReached(true);
         }
@@ -61,7 +67,7 @@ function DropdownResults(props) {
     }, [data, error])
 
     useEffect(() => {
-
+        isFetchedData.current = true;
         if (dropdownRef.current && scrollPoint != dropdownRef.current.scrollTop) {
             dropdownRef.current.scrollTop = scrollPoint;
         }
